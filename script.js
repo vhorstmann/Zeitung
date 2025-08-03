@@ -1,4 +1,3 @@
-
 document.getElementById('dataForm').addEventListener('submit', async function(e) {
   e.preventDefault();
 
@@ -9,7 +8,7 @@ document.getElementById('dataForm').addEventListener('submit', async function(e)
   responseDiv.innerHTML = "Verarbeite Daten...";
 
   try {
-    const res = await fetch('https://dein-backend-url.onrender.com/api/news', {
+    const res = await fetch('https://zeitung.onrender.com', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
