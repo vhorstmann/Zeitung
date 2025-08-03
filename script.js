@@ -1,30 +1,26 @@
 
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  margin: 0;
-  padding: 0;
-}
+document.getElementById('dataForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
 
-.container {
-  max-width: 500px;
-  margin: 50px auto;
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
+  const birthdate = document.getElementById('birthdate').value;
+  const years = document.getElementById('years').value;
 
-h1 {
-  text-align: center;
-}
+  const responseDiv = document.getElementById('response');
+  responseDiv.innerHTML = "Verarbeite Daten...";
 
-form {
-  display: flex;
-  flex-direction: column;
-}
+  try {
+    const res = await fetch('https://dein-backend-url.onrender.com/api/news', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ birthdate, years })
+    });
 
-label, input, button {
-  margin: 10px 0;
-}
-
+    const data = await res.json();
+    responseDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+  } catch (error) {
+    responseDiv.innerHTML = "Fehler beim Senden der Daten.";
+    console.error(error);
+  }
+});
