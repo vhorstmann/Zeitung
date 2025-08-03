@@ -29,3 +29,25 @@ def get_news():
 if __name__ == '__main__':
     app.run(debug=True)
 
+
+from fastapi import FastAPI, Query
+
+app = FastAPI()
+
+API_KEY = "DEIN_NEWS_DATA_API_KEY"
+
+@app.get("/top-news")
+def top_news(birthday: str = Query(...), years: int = Query(...)):
+    birth_year = int(birthday.split("-")[0])
+    news_results = []
+
+    for i in range(1, years + 1):
+        year = birth_year + i
+        news = get_top_news(year, API_KEY)
+        news_results.append({
+            "year": year,
+            "news": news
+        })
+
+    return {"results": news_results}
+
